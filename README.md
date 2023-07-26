@@ -2,11 +2,13 @@
 
 This script is a data extraction, transformation, and loading (ETL) tool for the Tiny ERP system. It pulls data from the Tiny ERP API, processes this data, and then loads it into Google's BigQuery service. The script is designed to run as a cron job every 5 minutes, ensuring that your BigQuery dataset is always up-to-date with the latest sales data.
 
+
 ## 📄 Description
 
 The ETL script is specifically designed to extract data from the Tiny ERP system's API, transform the data into a suitable format for querying, and then load it into Google's BigQuery service. This includes extracting data on orders and products, transforming data for optimal querying, and loading the data into a BigQuery dataset.
 
 On the first run, if no last processed order number is defined, the script will populate the BigQuery database with all past sales. The script keeps track of the last processed order number, allowing it to only request new sales on subsequent runs. This ensures efficient use of resources by avoiding re-processing of data.
+
 
 ## ✨ Features
 
@@ -19,6 +21,7 @@ On the first run, if no last processed order number is defined, the script will 
 - **Incremental Updates:** The script keeps track of the last processed order number, allowing it to only request new sales on subsequent runs. This ensures efficient use of resources by avoiding re-processing of data.
 
 - **Error Handling:** The script includes some error handling.
+
 
 ## 🚀 Installation
 
@@ -33,6 +36,7 @@ pip install -r requirements.txt
 
 This script requires Python 3.7 or later.
 
+
 ## 🛠️ Usage
 
 The script is designed to be run as a cron job every 5 minutes. Here is a suggested cron job command:
@@ -42,6 +46,7 @@ The script is designed to be run as a cron job every 5 minutes. Here is a sugges
 ```
 
 This command will execute the script every 5 minutes and write any output to an activity log.
+
 
 ## 🕓 Running as a Cron Job
 
@@ -68,6 +73,35 @@ Here are a few ways to give your cron job access to these environment variables:
 
 Remember, security is paramount. Ensure that your crontab file, .bashrc or .bash_profile file, and wrapper script (if used) are secured with appropriate file permissions, and be careful not to expose your secret tokens.
 
+## 💹 Handling the "Desconto" field in Google Data Studio
+
+The "desconto" field at the pedidos table in the Tiny ERP data represents discounts applied to sales, and it can be in two formats: a raw BRL value, or a percentage of the total sale value.
+
+For better analysis in Google Looker Studio, we create two new variables from the "desconto" field:
+
+- Desconto (%)": This field extracts the percentage discount when available, and calculates the percentage discount from the total value when only the discount in BRL is available.
+
+```
+CASE
+  WHEN REGEXP_MATCH(desconto, "(\\d+(\\.\\d+)?%)")
+    THEN CAST(REGEXP_REPLACE(Desconto, "%", "") AS NUMBER) / 100
+  ELSE CAST(desconto AS NUMBER) / CAST(Total_Value AS NUMBER)
+END
+```
+
+- "Desconto (BRL)": This field extracts the discount in BRL when available, and calculates the discount in BRL from the total value and percentage discount when only the percentage discount is available.
+
+```
+CASE
+  WHEN REGEXP_MATCH(desconto, "(\\d+(\\.\\d+)?%)")
+    THEN CAST(totalProdutos AS NUMBER) * (CAST(REGEXP_REPLACE(desconto, "%", "") AS NUMBER) / 100)
+  ELSE CAST(desconto AS NUMBER)
+END
+```
+
+Remember to replace Desconto and Total_Value with the actual names of your discount and total value columns, respectively.
+
+
 ## 🤝 Contributing
 
 Contributions are always welcome! Please read the contributing guidelines before making any changes. We use the "Fork-and-Pull" Git workflow for contributions.
@@ -77,6 +111,7 @@ Contributions are always welcome! Please read the contributing guidelines before
 3. **Commit** changes to your branch.
 4. **Push** your work back up to your fork.
 5. Submit a **Pull request** so your changes can be reviewed.
+
 
 ## 📝 License
 
