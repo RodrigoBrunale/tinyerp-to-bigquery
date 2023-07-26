@@ -239,7 +239,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
                         ])
 
                         # Throttle API calls
-                        time.sleep(1)
+                        time.sleep(1.2)
 
 # Store the last processed pedido number
 store_last_processed_pedido_number(max_pedido_number)
