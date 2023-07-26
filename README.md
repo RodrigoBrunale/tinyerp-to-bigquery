@@ -29,7 +29,7 @@ On the first run, if no last processed order number is defined, the script will 
 pip install -r requirements.txt
 ```
 
-3. Set up the required environment variables for Google Cloud and Tiny ERP API authentication.
+3. Set up the required environment variables for Google Cloud and Tiny ERP API authentication.     Specifically, you need to set the `TINY_ERP_TOKEN` environment variable to your Tiny ERP token,     and the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of your Google Service Account key file.
 
 This script requires Python 3.7 or later.
 
