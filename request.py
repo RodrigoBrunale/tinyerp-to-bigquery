@@ -25,7 +25,7 @@ url_pdv = f"https://api.tiny.com.br/api2/pdv.pedido.obter.php?token={token}&id={
 url_produto = f"https://api.tiny.com.br/api2/produto.obter.php?token={token}&id={{}}"
 
 table_prefix = "z316"  # Add your desired table prefix here
-dataset_name = "z316"  # Add your desired dataset name here
+dataset_name = "z316_tiny"  # Add your desired dataset name here
 
 # Authenticate your client
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]  # Add here your Google Service Account --> https://console.cloud.google.com/iam-admin/serviceaccounts
