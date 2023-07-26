@@ -29,7 +29,7 @@ On the first run, if no last processed order number is defined, the script will 
 pip install -r requirements.txt
 ```
 
-3. Set up the required environment variables for Google Cloud and Tiny ERP API authentication.     Specifically, you need to set the `TINY_ERP_TOKEN` environment variable to your Tiny ERP token,     and the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of your Google Service Account key file.
+3. Set up the required environment variables for Google Cloud and Tiny ERP API authentication.     Specifically, you need to set the `TINY_ERP_TOKEN` environment variable to your Tiny ERP token,     and the `GOOGLE_APPLICATION_CREDENTIALS` environment variable to the path of your Google Service Account key file.     In addition, you should set the `table_prefix`, `dataset_name`, and `last_processed_pedido_number_file` variables at the beginning of the script to your desired values.     The `table_prefix` and `dataset_name` will be used as the prefix for the table names and the name of the dataset in BigQuery, respectively.     The `last_processed_pedido_number_file` should be the full path to the file where the last processed pedido number is stored.
 
 This script requires Python 3.7 or later.
 

@@ -24,12 +24,15 @@ url_pedidos = f"https://api.tiny.com.br/api2/pedidos.pesquisa.php?token={token}&
 url_pdv = f"https://api.tiny.com.br/api2/pdv.pedido.obter.php?token={token}&id={{}}"
 url_produto = f"https://api.tiny.com.br/api2/produto.obter.php?token={token}&id={{}}"
 
+table_prefix = "z316"  # Add your desired table prefix here
+dataset_name = "z316"  # Add your desired dataset name here
+
 # Authenticate your client
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]  # Add here your Google Service Account --> https://console.cloud.google.com/iam-admin/serviceaccounts
 client = bigquery.Client()
 
 # File to store the last processed pedido number
-last_processed_pedido_number_file = '/opt/scripts/tiny/last_processed_pedido_number.txt'
+last_processed_pedido_number_file = '/opt/scripts/tiny/last_processed_pedido_number.txt'  # Modify this path as needed
 
 # Function to get the last processed pedido number from storage
 def get_last_processed_pedido_number():
@@ -261,5 +264,5 @@ df_itens[['quantidade', 'desconto', 'valor', 'preco_custo']] = df_itens[['quanti
 df_itens['categoriaFirst'].fillna('Unknown', inplace=True)
 df_itens['categoriaSecond'].fillna('Unknown', inplace=True)
 
-upload_df_to_bigquery(df_pedidos, 'tiny', 'tiny-pedidos', schema_pedidos)
-upload_df_to_bigquery(df_itens, 'tiny', 'tiny-itens-pedido', schema_itens)
+upload_df_to_bigquery(df_pedidos, dataset_name, f'{table_prefix}-pedidos', schema_pedidos)
+upload_df_to_bigquery(df_itens, dataset_name, f'{table_prefix}-itens-pedido', schema_itens)
