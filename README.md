@@ -38,7 +38,7 @@ This script requires Python 3.7 or later.
 The script is designed to be run as a cron job every 5 minutes. Here is a suggested cron job command:
 
 ```
-*/5 * * * * run-one /usr/bin/python3 /opt/scripts/tiny/request.py >> /opt/scripts/tiny/activity.log 2>&1
+*/5 * * * * run-one /usr/bin/python3 /opt/scripts/tinyerp-to-bigquery/request.py >> /opt/scripts/tinyerp-to-bigquery/activity.log 2>&1
 ```
 
 This command will execute the script every 5 minutes and write any output to an activity log.
