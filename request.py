@@ -24,7 +24,7 @@ url_pedidos = f"https://api.tiny.com.br/api2/pedidos.pesquisa.php?token={token}&
 url_pdv = f"https://api.tiny.com.br/api2/pdv.pedido.obter.php?token={token}&id={{}}"
 url_produto = f"https://api.tiny.com.br/api2/produto.obter.php?token={token}&id={{}}"
 
-table_prefix = "z316"  # Add your desired table prefix here
+table_prefix = "z316-tiny"  # Add your desired table prefix here
 dataset_name = "z316_tiny"  # Add your desired dataset name here
 
 # Authenticate your client
