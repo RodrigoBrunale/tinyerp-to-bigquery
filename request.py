@@ -32,7 +32,7 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.environ["GOOGLE_APPLICATION_CRED
 client = bigquery.Client()
 
 # File to store the last processed pedido number
-last_processed_pedido_number_file = '/opt/scripts/tiny/last_processed_pedido_number.txt'  # Modify this path as needed
+last_processed_pedido_number_file = '/opt/scripts/tinyerp-to-bigquery/last_processed_pedido_number.txt'  # Modify this path as needed
 
 # Function to get the last processed pedido number from storage
 def get_last_processed_pedido_number():
