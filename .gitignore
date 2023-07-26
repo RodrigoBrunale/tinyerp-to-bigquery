@@ -1,0 +1,11 @@
+# Ignore all service account
+*.json
+
+# Ignore all log files
+*.log
+
+# Ignore all .csv files (just in case)
+*.csv
+
+# Ignore all last processed file
+last_processed_pedido_number.txt
