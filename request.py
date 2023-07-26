@@ -17,7 +17,7 @@ time.tzset()
 logging.basicConfig(level=logging.INFO)
 
 # Set API token
-token = '[TINYERPTOKEN]' # Add Token API from Tiny --> https://erp.tiny.com.br/configuracoes_api_web_services
+token = os.environ["TINY_ERP_TOKEN"]  # Add Token API from Tiny --> https://erp.tiny.com.br/configuracoes_api_web_services
 
 # URLs
 url_pedidos = f"https://api.tiny.com.br/api2/pedidos.pesquisa.php?token={token}&sort=DESC"
@@ -25,7 +25,7 @@ url_pdv = f"https://api.tiny.com.br/api2/pdv.pedido.obter.php?token={token}&id={
 url_produto = f"https://api.tiny.com.br/api2/produto.obter.php?token={token}&id={{}}"
 
 # Authenticate your client
-os.environ["GOOGLE_APPLICATION_CREDENTIALS"]="[PATHTOYOURSERVICEACCOUNT]" # Add here your Google Service Account --> https://console.cloud.google.com/iam-admin/serviceaccounts
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"]=os.environ["GOOGLE_APPLICATION_CREDENTIALS"]  # Add here your Google Service Account --> https://console.cloud.google.com/iam-admin/serviceaccounts
 client = bigquery.Client()
 
 # File to store the last processed pedido number
@@ -116,7 +116,7 @@ schema_itens = [
 ]
 
 # Add these lines
-with open('z316-pedidos.csv', 'w', newline='') as f_pedidos, open('z316-itens-pedido.csv', 'w', newline='') as f_itens:
+with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv', 'w', newline='') as f_itens:
     writer_pedidos = csv.writer(f_pedidos)
     writer_itens = csv.writer(f_itens)
 
@@ -242,12 +242,10 @@ with open('z316-pedidos.csv', 'w', newline='') as f_pedidos, open('z316-itens-pe
 store_last_processed_pedido_number(max_pedido_number)
 
 # Load the data into pandas dataframes
-df_pedidos = pd.read_csv('z316-pedidos.csv')
-df_itens = pd.read_csv('z316-itens-pedido.csv')
+df_pedidos = pd.read_csv('pedidos.csv')
+df_itens = pd.read_csv('itens-pedido.csv')
 
 # Upload the dataframes to BigQuery
-#print(df_pedidos.dtypes)
-#print(df_itens.dtypes)
 df_pedidos['timestamp'] = pd.to_datetime(df_pedidos['timestamp'])
 df_pedidos['data_pedido'] = pd.to_datetime(df_pedidos['data_pedido']).dt.date
 
@@ -263,5 +261,5 @@ df_itens[['quantidade', 'desconto', 'valor', 'preco_custo']] = df_itens[['quanti
 df_itens['categoriaFirst'].fillna('Unknown', inplace=True)
 df_itens['categoriaSecond'].fillna('Unknown', inplace=True)
 
-upload_df_to_bigquery(df_pedidos, 'z316_tiny', 'z316-tiny-pedidos', schema_pedidos)
-upload_df_to_bigquery(df_itens, 'z316_tiny', 'z316-tiny-itens-pedido', schema_itens)
+upload_df_to_bigquery(df_pedidos, 'tiny', 'tiny-pedidos', schema_pedidos)
+upload_df_to_bigquery(df_itens, 'tiny', 'tiny-itens-pedido', schema_itens)
