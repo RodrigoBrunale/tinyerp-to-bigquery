@@ -43,6 +43,31 @@ The script is designed to be run as a cron job every 5 minutes. Here is a sugges
 
 This command will execute the script every 5 minutes and write any output to an activity log.
 
+## Running as a Cron Job
+
+When running this script as a cron job, be aware that cron jobs do not have access to the same environment variables as your interactive shell. This means that if you've set the `TINY_ERP_TOKEN` and `GOOGLE_APPLICATION_CREDENTIALS` environment variables in your shell (e.g., in your `.bashrc` or `.bash_profile` file), the cron job won't see them.
+
+Here are a few ways to give your cron job access to these environment variables:
+
+- **Define the environment variables in the crontab file:** You can add lines to your crontab file setting the `TINY_ERP_TOKEN` and `GOOGLE_APPLICATION_CREDENTIALS` variables. Open your crontab with `crontab -e`, and add the following lines at the top:
+
+    ```bash
+    TINY_ERP_TOKEN=your_tiny_erp_token
+    GOOGLE_APPLICATION_CREDENTIALS=/path/to/your/service/account/key.json
+    ```
+
+    Replace `your_tiny_erp_token` and `/path/to/your/service/account/key.json` with your actual values.
+
+- **Source your .bashrc or .bash_profile file in the cron job command:** You can tell the cron job to source your `.bashrc` or `.bash_profile` file before running the script. This will load the environment variables you've defined there. Here's how your cron job command might look:
+
+    ```bash
+    */5 * * * * . $HOME/.bashrc; run-one /usr/bin/python3 /opt/scripts/tinyerp-to-bigquery/request.py >> /opt/scripts/tinyerp-to-bigquery/activity.log 2>&1
+    ```
+
+- **Use a wrapper script:** You can create a wrapper bash script that sources your `.bashrc` or `.bash_profile` file (thus loading the environment variables) and then runs your Python script. Your cron job would then call this wrapper script.
+
+Remember, security is paramount. Ensure that your crontab file, .bashrc or .bash_profile file, and wrapper script (if used) are secured with appropriate file permissions, and be careful not to expose your secret tokens.
+
 ## Contributing
 
 Contributions are always welcome! Please read the contributing guidelines before making any changes. We use the "Fork-and-Pull" Git workflow for contributions.
