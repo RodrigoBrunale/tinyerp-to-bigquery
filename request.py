@@ -157,6 +157,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
 
                     # Update max_pedido_number
                     max_pedido_number = max(max_pedido_number, pedido_number)
+                    highest_pedido_number = max(highest_pedido_number, pedido_number)
 
                     # If this pedido has been processed before, skip it
                     if pedido_number <= last_processed_pedido_number:
