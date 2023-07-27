@@ -96,6 +96,8 @@ schema_pedidos = [
     bigquery.SchemaField("id", "INTEGER"),
     bigquery.SchemaField("pedido_number", "INTEGER"),
     bigquery.SchemaField("id_vendedor", "STRING"),
+    bigquery.SchemaField("nome_vendedor", "STRING"),
+    bigquery.SchemaField("nome_vendedor", "STRING"),
     bigquery.SchemaField("totalProdutos", "FLOAT"),
     bigquery.SchemaField("totalVenda", "FLOAT"),
     bigquery.SchemaField("desconto", "STRING"),
@@ -108,6 +110,8 @@ schema_itens = [
     bigquery.SchemaField("id", "INTEGER"),
     bigquery.SchemaField("pedido_number", "INTEGER"),
     bigquery.SchemaField("id_vendedor", "STRING"),
+    bigquery.SchemaField("nome_vendedor", "STRING"),
+    bigquery.SchemaField("nome_vendedor", "STRING"),
     bigquery.SchemaField("idProduto", "INTEGER"),
     bigquery.SchemaField("descricao", "STRING"),
     bigquery.SchemaField("quantidade", "FLOAT"),
@@ -124,8 +128,8 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
     writer_itens = csv.writer(f_itens)
 
     # Write the headers
-    writer_pedidos.writerow(['timestamp', 'data_pedido', 'id', 'pedido_number', 'id_vendedor', 'totalProdutos', 'totalVenda', 'desconto', 'formaPagamento'])
-    writer_itens.writerow(['timestamp', 'data_pedido', 'id', 'pedido_number', 'id_vendedor', 'idProduto', 'descricao', 'quantidade', 'desconto', 'valor', 'preco_custo', 'categoriaFirst', 'categoriaSecond'])
+    writer_pedidos.writerow(['timestamp', 'data_pedido', 'id', 'pedido_number', 'id_vendedor', 'nome_vendedor', 'totalProdutos', 'totalVenda', 'desconto', 'formaPagamento'])
+    writer_itens.writerow(['timestamp', 'data_pedido', 'id', 'pedido_number', 'id_vendedor', 'nome_vendedor', 'idProduto', 'descricao', 'quantidade', 'desconto', 'valor', 'preco_custo', 'categoriaFirst', 'categoriaSecond'])
 
     # Flag to indicate if all pedidos have been processed
     all_pedidos_processed = False
@@ -184,6 +188,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
                     pedido_totalVenda = pdv['totalVenda']
                     pedido_desconto = pdv['desconto'].replace(',', '.')  # Replace comma with dot
                     pedido_formaPagamento = pdv['formaPagamento']
+                    pedido_nome_vendedor = pedido.find('nome_vendedor').text
 
                     # Append to pedidos data list
                     writer_pedidos.writerow([
@@ -192,6 +197,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
                         pedido_id,
                         pedido_number,
                         pedido_id_vendedor,
+                        pedido_nome_vendedor,
                         pedido_totalProdutos,
                         pedido_totalVenda,
                         pedido_desconto,
@@ -229,6 +235,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
                             pedido_id,
                             pedido_number,
                             pedido_id_vendedor,
+                            pedido_nome_vendedor,
                             item['idProduto'],
                             item['descricao'],
                             item['quantidade'],
