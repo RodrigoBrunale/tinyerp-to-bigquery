@@ -241,8 +241,8 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
                         # Throttle API calls
                         time.sleep(1.2)
 
-# Store the last processed pedido number after each successful API call
-                    store_last_processed_pedido_number(pedido_number)
+# Store the last processed pedido number
+store_last_processed_pedido_number(max_pedido_number)
 
 # Load the data into pandas dataframes
 df_pedidos = pd.read_csv('pedidos.csv')
