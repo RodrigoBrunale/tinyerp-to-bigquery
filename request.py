@@ -92,7 +92,7 @@ highest_pedido_number = 0
 
 # Define the schema for the tables
 schema_pedidos = [
-    bigquery.SchemaField("timestamp", "TIMESTAMP"),
+    bigquery.SchemaField("timestamp", "DATETIME"),
     bigquery.SchemaField("data_pedido", "DATE"),
     bigquery.SchemaField("id", "INTEGER"),
     bigquery.SchemaField("pedido_number", "INTEGER"),
@@ -105,7 +105,7 @@ schema_pedidos = [
 ]
 
 schema_itens = [
-    bigquery.SchemaField("timestamp", "TIMESTAMP"),
+    bigquery.SchemaField("timestamp", "DATETIME"),
     bigquery.SchemaField("data_pedido", "DATE"),
     bigquery.SchemaField("id", "INTEGER"),
     bigquery.SchemaField("pedido_number", "INTEGER"),
@@ -191,7 +191,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
 
                     # Append to pedidos data list
                     writer_pedidos.writerow([
-                        datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Convert to YYYY-MM-DD hh:mm:ss format
+                        datetime.now().replace(tzinfo=None),  # Convert to YYYY-MM-DD hh:mm:ss format
                         pedido_data_pedido,
                         pedido_id,
                         pedido_number,
@@ -229,7 +229,7 @@ with open('pedidos.csv', 'w', newline='') as f_pedidos, open('itens-pedido.csv',
 
                         # Append to itens data list
                         writer_itens.writerow([
-                            datetime.now().strftime('%Y-%m-%d %H:%M:%S'),  # Convert to YYYY-MM-DD hh:mm:ss format
+                            datetime.now().replace(tzinfo=None),  # Convert to YYYY-MM-DD hh:mm:ss format
                             pedido_data_pedido,
                             pedido_id,
                             pedido_number,
