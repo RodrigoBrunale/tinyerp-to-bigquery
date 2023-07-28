@@ -88,6 +88,7 @@ last_processed_pedido_number = get_last_processed_pedido_number()
 
 # Initialize max_pedido_number
 max_pedido_number = 0
+highest_pedido_number = 0
 
 # Define the schema for the tables
 schema_pedidos = [
